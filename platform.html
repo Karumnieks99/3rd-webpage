@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NovaEdge Platform</title>
+  <link rel="stylesheet" href="styles.css">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Rajdhani:wght@500;600;700&display=swap"
+    rel="stylesheet"
+  >
+</head>
+<body class="platform-page">
+  <header class="site-header">
+    <div class="wrap header__inner">
+      <a class="brand" href="index.html" aria-label="NovaEdge homepage">
+        <span class="brand__symbol">NE</span>
+        <span class="brand__text">
+          <span>NovaEdge</span>
+          <small>Compute Studio</small>
+        </span>
+      </a>
+
+      <button class="nav-toggle" type="button" aria-controls="site-nav" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav class="site-nav" id="site-nav" aria-label="Primary">
+        <a href="index.html">Home</a>
+        <a href="platform.html" class="is-active" aria-current="page">Platform</a>
+        <a href="support.html">Support</a>
+        <a class="site-nav__cta" href="support.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-hero" id="overview">
+      <div class="wrap page-hero__inner">
+        <div class="page-hero__content" data-animate="slide-right" data-animate-delay="0s">
+          <span class="section__eyebrow">Platform overview</span>
+          <h1 class="page-hero__title">Every layer hand-coded for dependable performance.</h1>
+          <p>
+            NovaEdge blends custom silicon, graphics pipelines, operating environments, and orchestration tooling into a
+            single platform that adapts to your workloads. Each module is authored in-house—no licensed reference designs.
+          </p>
+          <div class="page-hero__actions">
+            <a class="button button--primary" href="#orion">Explore modules</a>
+            <a class="button button--ghost" href="support.html#contact">Plan a build</a>
+          </div>
+        </div>
+        <dl class="page-hero__stats" data-animate="slide-left" data-animate-delay="0.1s">
+          <div>
+            <dt>12</dt>
+            <dd>active platform releases</dd>
+          </div>
+          <div>
+            <dt>4.6x</dt>
+            <dd>average throughput gains</dd>
+          </div>
+          <div>
+            <dt>180+</dt>
+            <dd>security controls validated</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <section class="section section--alt" id="orion">
+      <div class="wrap">
+        <div class="section__header section__header--left" data-animate="slide-up">
+          <span class="section__eyebrow">Orion compute</span>
+          <h2 class="section__title">Modular compute fabric with adaptive scheduling.</h2>
+          <p class="section__description">
+            Orion nodes combine efficient cores, on-die AI acceleration, and carbon-aware scheduling to deliver consistent results
+            in any environment—from core data centers to constrained edge sites.
+          </p>
+        </div>
+        <div class="module-grid">
+          <article class="module-card" data-animate="slide-up" data-animate-delay="0s">
+            <h3>Balanced architecture</h3>
+            <p>
+              Multi-cluster compute with dynamic power gating and memory-tiering ensures top-tier throughput without thermal runaway.
+            </p>
+          </article>
+          <article class="module-card" data-animate="slide-up" data-animate-delay="0.1s">
+            <h3>Secure enclaves</h3>
+            <p>
+              Firmware-led encryption and attestation allow you to isolate sensitive workloads while maintaining orchestration fluidity.
+            </p>
+          </article>
+          <article class="module-card" data-animate="slide-up" data-animate-delay="0.2s">
+            <h3>Scheduler intelligence</h3>
+            <p>
+              Workload-aware tuning monitors cost, carbon, and latency so the platform hits performance goals responsibly.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="atlas">
+      <div class="wrap">
+        <div class="section__header section__header--left" data-animate="slide-up">
+          <span class="section__eyebrow">Atlas graphics</span>
+          <h2 class="section__title">Visual compute for real-time storytelling.</h2>
+          <p class="section__description">
+            Atlas pipelines translate complex data into vivid experiences with thoughtfully tuned render cores, AI enhancement,
+            and streaming-ready encoders.
+          </p>
+        </div>
+        <div class="module-grid module-grid--split">
+          <article class="module-card module-card--wide" data-animate="slide-up" data-animate-delay="0s">
+            <h3>Creator toolkit</h3>
+            <p>
+              SDR and HDR pipelines, deterministic color management, and layered denoise ensure teams can iterate in real time
+              during production or live events.
+            </p>
+          </article>
+          <article class="module-card module-card--wide" data-animate="slide-up" data-animate-delay="0.1s">
+            <h3>Interactive visual analytics</h3>
+            <p>
+              Native support for large-scale datasets, fluid camera controls, and responsive filtering for simulation, digital twins,
+              and operational dashboards.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--alt" id="edge">
+      <div class="wrap">
+        <div class="section__header section__header--left" data-animate="slide-up">
+          <span class="section__eyebrow">Edge deployment</span>
+          <h2 class="section__title">Reliable performance outside the data center.</h2>
+          <p class="section__description">
+            Compact systems and orchestration bundles designed for locations with limited connectivity, space, or power. Built for
+            retail, logistics, healthcare, and connected infrastructure.
+          </p>
+        </div>
+        <div class="module-grid">
+          <article class="module-card" data-animate="slide-up" data-animate-delay="0s">
+            <h3>Resilient by design</h3>
+            <p>
+              Dual control planes, mesh-aware clustering, and remote-first observability keep services online even during outages.
+            </p>
+          </article>
+          <article class="module-card" data-animate="slide-up" data-animate-delay="0.1s">
+            <h3>Quick installs</h3>
+            <p>
+              Tool-free chassis, color-coded cabling, and guided commissioning reduce on-site time and cut installation errors.
+            </p>
+          </article>
+          <article class="module-card" data-animate="slide-up" data-animate-delay="0.2s">
+            <h3>Compliance ready</h3>
+            <p>
+              Template-driven policy packs align with regional regulations and provide auditable evidence out of the box.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section timeline">
+      <div class="wrap">
+        <div class="section__header section__header--left" data-animate="slide-up">
+          <span class="section__eyebrow">Engagement model</span>
+          <h2 class="section__title">A collaborative build from discovery to launch.</h2>
+        </div>
+        <ol class="timeline-list">
+          <li data-animate="slide-up" data-animate-delay="0s">
+            <span>01</span>
+            <h3>Discovery sprint</h3>
+            <p>
+              We map requirements, performance targets, integration points, and operational constraints alongside your teams.
+            </p>
+          </li>
+          <li data-animate="slide-up" data-animate-delay="0.1s">
+            <span>02</span>
+            <h3>Architecture draft</h3>
+            <p>
+              Engineers produce a detailed blueprint—hardware modules, software services, automation, and observability.
+            </p>
+          </li>
+          <li data-animate="slide-up" data-animate-delay="0.2s">
+            <span>03</span>
+            <h3>Pilot deployment</h3>
+            <p>
+              We ship a controlled build, run validation scenarios, and iterate the stack until it meets acceptance targets.
+            </p>
+          </li>
+          <li data-animate="slide-up" data-animate-delay="0.3s">
+            <span>04</span>
+            <h3>Scale & transition</h3>
+            <p>
+              After launch we assist with training, documentation, and handoff so your teams can operate with confidence.
+            </p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="section callout">
+      <div class="wrap callout__inner" data-animate="slide-up" data-animate-delay="0s">
+        <div>
+          <span class="section__eyebrow">Need a custom configuration?</span>
+          <h2 class="section__title">Let’s shape the right NovaEdge build together.</h2>
+          <p class="section__description">
+            From specialized accelerators to compliance-specific deployments, our engineers craft what your roadmap demands.
+          </p>
+        </div>
+        <a class="button button--primary" href="support.html#contact">Start the conversation</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap site-footer__inner">
+      <div class="site-footer__brand">
+        <span class="brand__symbol brand__symbol--small">NE</span>
+        <span class="site-footer__tagline">NovaEdge Studio • Engineered to perform</span>
+      </div>
+      <p class="site-footer__note">&copy; <span data-year></span> NovaEdge Studio. All rights reserved.</p>
+      <div class="site-footer__links">
+        <a href="index.html">Home</a>
+        <a href="platform.html">Platform</a>
+        <a href="support.html">Support</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
