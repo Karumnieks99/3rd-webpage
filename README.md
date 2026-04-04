@@ -1,16 +1,21 @@
-# Pulse Forge Landing Page
+# FORGE CUSTOMS Landing Page
 
-Static landing page for **Pulse Forge**, a custom gaming PC and creator workstation brand.  
-The project is built with plain HTML, CSS, and JavaScript, with Vite used as the local dev server and build tool.
+Static storefront-style landing page for **FORGE CUSTOMS**, a boutique custom PC brand focused on luxury systems, custom part selection, and frontend-only shopping flow.
+
+## Links
+
+- Live app: [https://karumnieks99.github.io/3rd-webpage/](https://karumnieks99.github.io/3rd-webpage/)
+- GitHub repo: [https://github.com/Karumnieks99/3rd-webpage](https://github.com/Karumnieks99/3rd-webpage)
 
 ## Overview
 
 This project includes:
 
-- A storefront-style landing page focused on product browsing and conversions
-- Local image assets stored inside the project
-- Responsive layout for desktop and mobile
-- Lightweight interactions for mobile navigation, scroll reveal, animated counters, and sticky header behavior
+- A premium landing page for prebuilt systems and custom PC builds
+- A frontend-only custom PC configurator with live price updates
+- A localStorage cart for both signature systems and custom builds
+- Product details dialogs and build inquiry flow
+- Local image assets and responsive desktop/mobile layouts
 
 ## Tech Stack
 
@@ -35,20 +40,20 @@ This project includes:
 
 ## Main Files
 
-- `pulse-landing-page.html`  
-  Main page markup and content sections
+- `pulse-landing-page.html`
+  Main page structure, content sections, dialogs, cart drawer, and custom builder markup
 
-- `pulse-landing-page.css`  
-  Visual system, layout, responsive styles, and component styling
+- `pulse-landing-page.css`
+  Layout, visual system, component styling, responsive behavior, cart UI, and builder styles
 
-- `pulse-landing-page.js`  
-  Mobile menu behavior, header scroll state, reveal animations, counters, and footer year
+- `pulse-landing-page.js`
+  Mobile navigation, reveal logic, cart persistence, dialogs, product actions, inquiry flow, and custom PC builder logic
 
-- `assets/images/`  
+- `assets/images/`
   Local image assets used by the page
 
-- `index.html`  
-  Redirect entry point that opens `pulse-landing-page.html`
+- `index.html`
+  Entry point used for deployment
 
 ## Getting Started
 
@@ -76,39 +81,28 @@ npm run build
 npm run preview
 ```
 
-## Customization
+## Current Features
 
-### Update content
+- Signature system cards with detail dialogs
+- Frontend cart with quantity controls and subtotal
+- Custom PC builder with configurable parts
+- Inquiry dialog with cart/build prefill
+- Responsive navigation and section transitions
 
-Edit:
+## Suggested Next Upgrades
 
-- `pulse-landing-page.html`
-
-### Update styling
-
-Edit:
-
-- `pulse-landing-page.css`
-
-### Update interactions
-
-Edit:
-
-- `pulse-landing-page.js`
-
-### Replace images
-
-Add or replace files in:
-
-- `assets/images/`
-
-Then update the relevant `<img>` paths in `pulse-landing-page.html`.
+- Connect the inquiry form to a real backend or email service
+- Save custom build presets and allow sharing a configuration link
+- Add validation rules for incompatible part combinations
+- Replace remaining generic brand-strip content with real proof or social proof
+- Add keyboard focus trapping inside the cart and dialog overlays
+- Add real checkout, payment, or quote-request handoff
 
 ## Notes
 
-- The page uses local image files instead of external hotlinked images.
-- Debug screenshots and render checks are stored under `artifacts/` and ignored by git.
-- The project can be deployed as a static site on GitHub Pages, Netlify, Vercel, or any basic static hosting.
+- The current cart and inquiry system are frontend-only.
+- Images are stored locally instead of hotlinked from external sources.
+- Debug artifacts are kept under `artifacts/` and ignored by git.
 
 ## License
 
