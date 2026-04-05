@@ -1,6 +1,6 @@
 # FORGE CUSTOMS Landing Page
 
-Static storefront-style landing page for **FORGE CUSTOMS**, a boutique custom PC brand focused on luxury systems, custom part selection, and frontend-only shopping flow.
+Static storefront-style landing page for **FORGE CUSTOMS**, a boutique custom PC brand focused on luxury systems, custom part selection, and a frontend-led quote request flow.
 
 ## Links
 
@@ -12,9 +12,9 @@ Static storefront-style landing page for **FORGE CUSTOMS**, a boutique custom PC
 This project includes:
 
 - A premium landing page for prebuilt systems and custom PC builds
-- A frontend-only custom PC configurator with live price updates
+- A custom PC configurator with live price updates
 - A localStorage cart for both signature systems and custom builds
-- Product details dialogs and build inquiry flow
+- Product details dialogs and an email-ready build inquiry flow
 - Local image assets and responsive desktop/mobile layouts
 
 ## Tech Stack
@@ -86,8 +86,9 @@ npm run preview
 - Signature system cards with detail dialogs
 - Frontend cart with quantity controls and subtotal
 - Custom PC builder with configurable parts
-- Inquiry dialog with cart/build prefill
+- Inquiry dialog with cart/build prefill, copy/download actions, and email handoff
 - Responsive navigation and section transitions
+- Keyboard-friendly cart drawer and dialog focus trapping
 
 ## Suggested Next Upgrades
 
@@ -95,12 +96,12 @@ npm run preview
 - Save custom build presets and allow sharing a configuration link
 - Add validation rules for incompatible part combinations
 - Replace remaining generic brand-strip content with real proof or social proof
-- Add keyboard focus trapping inside the cart and dialog overlays
-- Add real checkout, payment, or quote-request handoff
+- Add CRM integration, analytics events, or automated quote routing
+- Add real checkout or payment handoff if the site moves beyond lead generation
 
 ## Notes
 
-- The current cart and inquiry system are frontend-only.
+- The cart remains browser-based and the inquiry flow prepares an email-ready brief rather than posting to a backend.
 - Images are stored locally instead of hotlinked from external sources.
 - Debug artifacts are kept under `artifacts/` and ignored by git.
 

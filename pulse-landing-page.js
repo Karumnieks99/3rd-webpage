@@ -1,7 +1,17 @@
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const CART_STORAGE_KEY = "forge-customs-cart";
+const INQUIRY_STORAGE_KEY = "forge-customs-inquiries";
+const INQUIRY_EMAIL_ADDRESS = "hello@forgecustoms.com";
 const CUSTOM_BUILD_IMAGE = "assets/images/forge-builder-chassis.jpg";
 const CUSTOM_BUILD_BASE_PRICE = 1290;
+const FOCUSABLE_SELECTOR = [
+  "a[href]",
+  "button:not([disabled])",
+  "input:not([disabled]):not([type='hidden'])",
+  "select:not([disabled])",
+  "textarea:not([disabled])",
+  "[tabindex]:not([tabindex='-1'])"
+].join(", ");
 
 const products = {
   iridium: {
@@ -150,6 +160,11 @@ const inquiryContext = document.getElementById("inquiryContext");
 const inquiryCartSummary = document.getElementById("inquiryCartSummary");
 const inquiryUseCartBtn = document.getElementById("inquiryUseCartBtn");
 const inquirySuccess = document.getElementById("inquirySuccess");
+const inquirySuccessLead = document.getElementById("inquirySuccessLead");
+const inquirySuccessSummary = document.getElementById("inquirySuccessSummary");
+const inquiryEmailBtn = document.getElementById("inquiryEmailBtn");
+const inquiryCopyBtn = document.getElementById("inquiryCopyBtn");
+const inquiryDownloadBtn = document.getElementById("inquiryDownloadBtn");
 const inquirySuccessClose = document.getElementById("inquirySuccessClose");
 const siteToast = document.getElementById("siteToast");
 const customBuilderForm = document.getElementById("customBuilderForm");
@@ -164,6 +179,9 @@ const customBuilderLeadTime = document.getElementById("customBuilderLeadTime");
 let cart = loadCart();
 let activeProductId = null;
 let toastTimerId = null;
+let activeFocusTrap = null;
+let lastFocusedElement = null;
+let preparedInquiry = null;
 
 function formatCurrency(value) {
   return new Intl.NumberFormat("en-US", {
@@ -279,54 +297,160 @@ function getCartSubtotal() {
   }, 0);
 }
 
+function hasVisibleOverlay() {
+  return (
+    mobileMenu?.classList.contains("is-open") ||
+    cartDrawer?.classList.contains("is-open") ||
+    !productDialog?.hidden ||
+    !inquiryDialog?.hidden
+  );
+}
+
+function rememberFocusTrigger() {
+  if (hasVisibleOverlay()) return;
+
+  if (document.activeElement instanceof HTMLElement) {
+    lastFocusedElement = document.activeElement;
+  }
+}
+
+function restoreFocusTrigger() {
+  if (lastFocusedElement instanceof HTMLElement && lastFocusedElement.isConnected) {
+    lastFocusedElement.focus();
+  }
+}
+
+function getFocusableElements(container) {
+  if (!(container instanceof HTMLElement)) {
+    return [];
+  }
+
+  return Array.from(container.querySelectorAll(FOCUSABLE_SELECTOR)).filter((element) => {
+    if (!(element instanceof HTMLElement)) {
+      return false;
+    }
+
+    return !element.hidden && element.getAttribute("aria-hidden") !== "true" && element.getClientRects().length > 0;
+  });
+}
+
+function setFocusTrap(container, preferredFocus = null) {
+  if (!(container instanceof HTMLElement)) return;
+
+  activeFocusTrap = container;
+  const focusTarget =
+    preferredFocus instanceof HTMLElement && preferredFocus.isConnected
+      ? preferredFocus
+      : getFocusableElements(container)[0] || container;
+
+  window.requestAnimationFrame(() => {
+    if (focusTarget instanceof HTMLElement) {
+      focusTarget.focus();
+    }
+  });
+}
+
+function clearFocusTrap({ restoreFocus = false } = {}) {
+  activeFocusTrap = null;
+
+  if (restoreFocus) {
+    window.requestAnimationFrame(restoreFocusTrigger);
+  }
+}
+
+function trapFocus(event) {
+  if (event.key !== "Tab" || !(activeFocusTrap instanceof HTMLElement)) return;
+
+  const focusable = getFocusableElements(activeFocusTrap);
+  if (!focusable.length) {
+    event.preventDefault();
+    activeFocusTrap.focus();
+    return;
+  }
+
+  const first = focusable[0];
+  const last = focusable[focusable.length - 1];
+
+  if (event.shiftKey && document.activeElement === first) {
+    event.preventDefault();
+    last.focus();
+    return;
+  }
+
+  if (!event.shiftKey && document.activeElement === last) {
+    event.preventDefault();
+    first.focus();
+  }
+}
+
 function syncHeaderState() {
   if (!siteHeader) return;
   siteHeader.classList.toggle("is-scrolled", window.scrollY > 20);
 }
 
 function syncBodyLock() {
-  const hasOverlay =
-    mobileMenu?.classList.contains("is-open") ||
-    cartDrawer?.classList.contains("is-open") ||
-    !productDialog?.hidden ||
-    !inquiryDialog?.hidden;
-
-  document.body.classList.toggle("menu-open", Boolean(hasOverlay));
+  document.body.classList.toggle("menu-open", hasVisibleOverlay());
 }
 
-function setMobileMenu(open) {
+function setMobileMenu(open, { restoreFocus = true } = {}) {
   if (!menuBtn || !mobileMenu) return;
+
+  if (open) {
+    rememberFocusTrigger();
+  }
 
   mobileMenu.classList.toggle("is-open", open);
   menuBtn.classList.toggle("is-open", open);
   menuBtn.setAttribute("aria-expanded", String(open));
+  mobileMenu.setAttribute("aria-hidden", String(!open));
+
+  if (open) {
+    setFocusTrap(mobileMenu, mobileMenu.querySelector("a"));
+  } else if (activeFocusTrap === mobileMenu) {
+    clearFocusTrap({ restoreFocus });
+  }
+
   syncBodyLock();
 }
 
 function openCart() {
   if (!cartDrawer || !cartBackdrop || !cartBtn) return;
-  setMobileMenu(false);
-  closeDialogs();
+
+  rememberFocusTrigger();
+  setMobileMenu(false, { restoreFocus: false });
+  closeDialogs({ restoreFocus: false });
   cartBackdrop.hidden = false;
   cartDrawer.classList.add("is-open");
   cartDrawer.setAttribute("aria-hidden", "false");
   cartBtn.setAttribute("aria-expanded", "true");
+  setFocusTrap(cartDrawer, cartCloseBtn);
   syncBodyLock();
 }
 
-function closeCart() {
+function closeCart({ restoreFocus = true } = {}) {
   if (!cartDrawer || !cartBackdrop || !cartBtn) return;
   cartBackdrop.hidden = true;
   cartDrawer.classList.remove("is-open");
   cartDrawer.setAttribute("aria-hidden", "true");
   cartBtn.setAttribute("aria-expanded", "false");
+
+  if (activeFocusTrap === cartDrawer) {
+    clearFocusTrap({ restoreFocus });
+  }
+
   syncBodyLock();
 }
 
 function openDialog(dialog) {
   if (!dialog || !dialogBackdrop) return;
-  setMobileMenu(false);
-  closeCart();
+
+  rememberFocusTrigger();
+  setMobileMenu(false, { restoreFocus: false });
+  closeCart({ restoreFocus: false });
+
+  if (activeFocusTrap && activeFocusTrap !== dialog) {
+    clearFocusTrap();
+  }
 
   if (productDialog) {
     productDialog.hidden = true;
@@ -337,10 +461,14 @@ function openDialog(dialog) {
 
   dialog.hidden = false;
   dialogBackdrop.hidden = false;
+  setFocusTrap(
+    dialog,
+    dialog === inquiryDialog ? inquiryForm?.querySelector("input[name='name']") : productDialogClose
+  );
   syncBodyLock();
 }
 
-function closeDialogs() {
+function closeDialogs({ restoreFocus = true } = {}) {
   if (dialogBackdrop) {
     dialogBackdrop.hidden = true;
   }
@@ -350,6 +478,11 @@ function closeDialogs() {
   if (inquiryDialog) {
     inquiryDialog.hidden = true;
   }
+
+  if (activeFocusTrap === productDialog || activeFocusTrap === inquiryDialog) {
+    clearFocusTrap({ restoreFocus });
+  }
+
   syncBodyLock();
 }
 
@@ -523,6 +656,156 @@ function getCartSummaryText() {
     .join(", ");
 }
 
+function loadInquiryHistory() {
+  try {
+    const raw = window.localStorage.getItem(INQUIRY_STORAGE_KEY);
+    const parsed = raw ? JSON.parse(raw) : [];
+    return Array.isArray(parsed) ? parsed.filter((item) => item && typeof item === "object") : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveInquiryRecord(payload) {
+  try {
+    const history = loadInquiryHistory().slice(0, 14);
+    history.unshift(payload);
+    window.localStorage.setItem(INQUIRY_STORAGE_KEY, JSON.stringify(history));
+  } catch {
+    // Ignore storage errors so the request handoff can still continue.
+  }
+}
+
+function formatContextLabel(context) {
+  if (!context) return "General inquiry";
+
+  return String(context)
+    .split("-")
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
+}
+
+function buildInquiryPayload() {
+  if (!inquiryForm) return null;
+
+  const formData = new FormData(inquiryForm);
+  return {
+    submittedAt: new Date().toISOString(),
+    context: String(formData.get("context") || "general"),
+    name: String(formData.get("name") || "").trim(),
+    email: String(formData.get("email") || "").trim(),
+    focus: String(formData.get("focus") || "").trim(),
+    budget: String(formData.get("budget") || "").trim(),
+    notes: String(formData.get("notes") || "").trim(),
+    cartSummary: cart.length ? getCartSummaryText() : "",
+    cartSubtotal: cart.length ? formatCurrency(getCartSubtotal()) : ""
+  };
+}
+
+function formatInquiryRequest(payload) {
+  if (!payload) return "";
+
+  const submittedAt = new Date(payload.submittedAt).toLocaleString("en-US", {
+    dateStyle: "medium",
+    timeStyle: "short"
+  });
+
+  const lines = [
+    "FORGE CUSTOMS Build Request",
+    `Submitted: ${submittedAt}`,
+    `Request type: ${formatContextLabel(payload.context)}`,
+    `Client name: ${payload.name || "Not provided"}`,
+    `Client email: ${payload.email || "Not provided"}`,
+    `Build focus: ${payload.focus || "Not provided"}`,
+    `Budget range: ${payload.budget || "Not provided"}`
+  ];
+
+  if (payload.cartSummary) {
+    lines.push(`Cart items: ${payload.cartSummary}`);
+  }
+
+  if (payload.cartSubtotal) {
+    lines.push(`Cart subtotal: ${payload.cartSubtotal}`);
+  }
+
+  if (payload.notes) {
+    lines.push("", "Notes:", payload.notes);
+  }
+
+  return lines.join("\n");
+}
+
+function updateInquirySuccessUI(payload) {
+  if (!payload || !inquirySuccessLead || !inquirySuccessSummary) return;
+
+  inquirySuccessLead.textContent = `Prepared for ${payload.name || "your client"} with ${
+    payload.focus || "a custom build"
+  } in the ${payload.budget || "open"} range.`;
+  inquirySuccessSummary.textContent = formatInquiryRequest(payload);
+}
+
+function getInquiryEmailHref(payload) {
+  const subject = encodeURIComponent(
+    `FORGE build request | ${payload.name || "Prospective client"} | ${payload.focus || "Custom build"}`
+  );
+  const body = encodeURIComponent(formatInquiryRequest(payload));
+  return `mailto:${INQUIRY_EMAIL_ADDRESS}?subject=${subject}&body=${body}`;
+}
+
+function openPreparedInquiryEmail() {
+  if (!preparedInquiry) return;
+
+  window.location.href = getInquiryEmailHref(preparedInquiry);
+  showToast("Email draft opened.");
+}
+
+async function copyPreparedInquiry() {
+  if (!preparedInquiry) return;
+
+  const requestText = formatInquiryRequest(preparedInquiry);
+
+  try {
+    if (navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(requestText);
+    } else {
+      const helper = document.createElement("textarea");
+      helper.value = requestText;
+      helper.setAttribute("readonly", "");
+      helper.style.position = "fixed";
+      helper.style.opacity = "0";
+      document.body.append(helper);
+      helper.select();
+      document.execCommand("copy");
+      helper.remove();
+    }
+
+    showToast("Request copied to clipboard.");
+  } catch {
+    showToast("Clipboard copy failed. Try downloading the brief.");
+  }
+}
+
+function downloadPreparedInquiry() {
+  if (!preparedInquiry) return;
+
+  const slug = (preparedInquiry.name || "build-request")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+  const filename = `forge-build-request-${slug || "client"}-${preparedInquiry.submittedAt.slice(0, 10)}.txt`;
+  const file = new Blob([formatInquiryRequest(preparedInquiry)], { type: "text/plain;charset=utf-8" });
+  const url = URL.createObjectURL(file);
+  const link = document.createElement("a");
+
+  link.href = url;
+  link.download = filename;
+  document.body.append(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+  showToast("Request brief downloaded.");
+}
+
 function setSelectValue(field, value) {
   if (!(field instanceof HTMLSelectElement) || !value) return;
 
@@ -544,7 +827,16 @@ function openInquiryDialog(context = "general", productId = null, prefill = null
 
   inquiryForm.hidden = false;
   inquirySuccess.hidden = true;
+  preparedInquiry = null;
   inquiryForm.reset();
+
+  if (inquirySuccessLead) {
+    inquirySuccessLead.textContent =
+      "Your build brief is prepared. Open the email draft, copy the request, or download it for handoff.";
+  }
+  if (inquirySuccessSummary) {
+    inquirySuccessSummary.textContent = "";
+  }
 
   const notesField = inquiryForm.elements.namedItem("notes");
   const focusField = inquiryForm.elements.namedItem("focus");
@@ -604,9 +896,17 @@ function applyCartToInquiry() {
 
 function handleInquirySubmit(event) {
   event.preventDefault();
+
+  const payload = buildInquiryPayload();
+  if (!payload) return;
+
+  preparedInquiry = payload;
+  saveInquiryRecord(payload);
+  updateInquirySuccessUI(payload);
   inquiryForm.hidden = true;
   inquirySuccess.hidden = false;
-  showToast("Build request saved in this browser.");
+  setFocusTrap(inquiryDialog, inquiryEmailBtn || inquirySuccessClose);
+  showToast("Build request prepared.");
 }
 
 function getBuilderOption(groupKey, value) {
@@ -792,6 +1092,11 @@ productDialogInquiry?.addEventListener("click", () => {
 
 inquiryUseCartBtn?.addEventListener("click", applyCartToInquiry);
 inquiryForm?.addEventListener("submit", handleInquirySubmit);
+inquiryEmailBtn?.addEventListener("click", openPreparedInquiryEmail);
+inquiryCopyBtn?.addEventListener("click", () => {
+  void copyPreparedInquiry();
+});
+inquiryDownloadBtn?.addEventListener("click", downloadPreparedInquiry);
 inquirySuccessClose?.addEventListener("click", closeDialogs);
 
 customBuilderForm?.addEventListener("change", updateCustomBuilderUI);
@@ -855,6 +1160,8 @@ document.addEventListener("click", (event) => {
 });
 
 document.addEventListener("keydown", (event) => {
+  trapFocus(event);
+
   if (event.key !== "Escape") return;
 
   if (!productDialog.hidden || !inquiryDialog.hidden) {
