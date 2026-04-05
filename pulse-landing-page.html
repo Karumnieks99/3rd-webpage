@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>FORGE CUSTOMS | The Art of Performance</title>
-  <meta name="description" content="FORGE CUSTOMS builds luxury custom PCs and pre-engineered signature systems with artisan assembly, burn-in validation, and dedicated engineer support.">
+  <title>FORGE CUSTOMS &mdash; The Art of Performance</title>
+  <meta name="description" content="FORGE CUSTOMS builds luxury custom PCs with premium parts, artisan assembly, burn-in testing, and dedicated support for gaming, creators, and workstations.">
   <meta name="theme-color" content="#faf9f6">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -96,7 +96,11 @@
               <p>64GB DDR5 | 4TB NVMe Gen5</p>
               <div class="system-card__footer">
                 <span class="system-card__price">From $5,200</span>
-                <button class="system-card__details" type="button" data-product="iridium">Details <span class="material-symbols-outlined" aria-hidden="true">chevron_right</span></button>
+                <button class="system-card__details" type="button" data-product="iridium">
+                  <span aria-hidden="true">Details</span>
+                  <span class="sr-only">View Iridium details</span>
+                  <span class="material-symbols-outlined" aria-hidden="true">chevron_right</span>
+                </button>
               </div>
               <div class="system-card__actions">
                 <button class="button button--primary button--compact" type="button" data-add-to-cart="iridium">Add to Cart</button>
@@ -118,7 +122,11 @@
               <p>32GB DDR5 | 2TB NVMe</p>
               <div class="system-card__footer">
                 <span class="system-card__price">From $3,800</span>
-                <button class="system-card__details" type="button" data-product="ghost">Details <span class="material-symbols-outlined" aria-hidden="true">chevron_right</span></button>
+                <button class="system-card__details" type="button" data-product="ghost">
+                  <span aria-hidden="true">Details</span>
+                  <span class="sr-only">View Ghost details</span>
+                  <span class="material-symbols-outlined" aria-hidden="true">chevron_right</span>
+                </button>
               </div>
               <div class="system-card__actions">
                 <button class="button button--primary button--compact" type="button" data-add-to-cart="ghost">Add to Cart</button>
@@ -140,7 +148,11 @@
               <p>32GB DDR5 | 1TB NVMe</p>
               <div class="system-card__footer">
                 <span class="system-card__price">From $2,900</span>
-                <button class="system-card__details" type="button" data-product="pearl">Details <span class="material-symbols-outlined" aria-hidden="true">chevron_right</span></button>
+                <button class="system-card__details" type="button" data-product="pearl">
+                  <span aria-hidden="true">Details</span>
+                  <span class="sr-only">View Pearl details</span>
+                  <span class="material-symbols-outlined" aria-hidden="true">chevron_right</span>
+                </button>
               </div>
               <div class="system-card__actions">
                 <button class="button button--primary button--compact" type="button" data-add-to-cart="pearl">Add to Cart</button>
@@ -428,15 +440,15 @@
         <h4>Support</h4>
         <a href="#warranty">Warranty Policy</a>
         <a href="#shipping">Shipping &amp; Returns</a>
-        <a href="#support">Driver Downloads</a>
+        <a href="./driver-downloads.html">Driver Downloads</a>
         <a href="#contact-engineer" data-open-inquiry="footer-engineer">Contact Engineer</a>
       </div>
 
       <div>
         <h4>Company</h4>
         <a href="#about">About Forge</a>
-        <a href="#support">Privacy Policy</a>
-        <a href="#support">Terms of Service</a>
+        <a href="./privacy-policy.html">Privacy Policy</a>
+        <a href="./terms-of-service.html">Terms of Service</a>
         <div class="site-footer__icons">
           <a class="icon-link" href="#top" aria-label="Back to top">
             <span class="material-symbols-outlined" aria-hidden="true">public</span>
@@ -491,7 +503,7 @@
     </button>
     <div class="dialog__grid">
       <div class="dialog__media">
-        <img id="productDialogImage" src="" alt="">
+        <img id="productDialogImage" src="assets/images/forge-hero-white-build.jpg" alt="FORGE CUSTOMS signature system detail preview" loading="lazy" decoding="async">
       </div>
       <div class="dialog__content">
         <p class="dialog__eyebrow" id="productDialogEyebrow">Signature System</p>
@@ -570,6 +582,6 @@
 
   <div class="toast" id="siteToast" hidden></div>
 
-  <script src="pulse-landing-page.js" defer></script>
+  <script type="module" src="pulse-landing-page.js"></script>
 </body>
 </html>

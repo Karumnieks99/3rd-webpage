@@ -11,6 +11,7 @@ const products = {
     price: 5200,
     priceLabel: "From $5,200",
     image: "assets/images/forge-system-white-tower.jpg",
+    imageAlt: "White custom tower with a minimalist case and warm internal cooling fan",
     summary: "64GB DDR5 | 4TB NVMe Gen5",
     description: "A luxury workstation-first tower shaped around high-end gaming, heavy creative workloads, and a cleaner monochrome presentation that still feels engineered.",
     specs: [
@@ -27,6 +28,7 @@ const products = {
     price: 3800,
     priceLabel: "From $3,800",
     image: "assets/images/forge-hero-white-build.jpg",
+    imageAlt: "All-white custom PC build with glass side panel and bright internal lighting",
     summary: "32GB DDR5 | 2TB NVMe",
     description: "The flagship all-white showcase system. Built for buyers who want strong gaming performance, premium presentation, and a more architectural desk presence.",
     specs: [
@@ -43,6 +45,7 @@ const products = {
     price: 2900,
     priceLabel: "From $2,900",
     image: "assets/images/forge-system-rgb-tower.jpg",
+    imageAlt: "Compact white PC tower with colorful internal lighting on a dark desk",
     summary: "32GB DDR5 | 1TB NVMe",
     description: "A smaller-footprint system with stronger visual contrast, compact proportions, and enough headroom for high-refresh gaming and mixed daily creator use.",
     specs: [
@@ -491,7 +494,7 @@ function openProductDialog(productId) {
 
   activeProductId = productId;
   productDialogImage.src = product.image;
-  productDialogImage.alt = product.name;
+  productDialogImage.alt = product.imageAlt || `${product.name} product detail`;
   productDialogTitle.textContent = product.name;
   productDialogEyebrow.textContent = product.eyebrow;
   productDialogDescription.textContent = product.description;
