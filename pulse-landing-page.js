@@ -18,15 +18,15 @@ const products = {
     id: "iridium",
     name: "The Iridium",
     eyebrow: "Workstation Class",
-    price: 5200,
-    priceLabel: "From $5,200",
+    price: 6990,
+    priceLabel: "From $6,990",
     image: "assets/images/forge-system-white-tower.jpg",
     imageAlt: "White custom tower with a minimalist case and warm internal cooling fan",
     summary: "64GB DDR5 | 4TB NVMe Gen5",
-    description: "A luxury workstation-first tower shaped around high-end gaming, heavy creative workloads, and a cleaner monochrome presentation that still feels engineered.",
+    description: "A halo-class workstation and gaming tower built around the newest flagship silicon, tuned for cinematic 4K play, demanding render loads, and a cleaner monochrome presentation.",
     specs: [
-      "GeForce RTX 4090 graphics",
-      "Intel Core i9-14900K processor",
+      "GeForce RTX 5090 graphics",
+      "AMD Ryzen 9 9950X3D processor",
       "64GB DDR5 memory and 4TB Gen5 NVMe storage",
       "White tower chassis with tuned airflow and restrained lighting"
     ]
@@ -35,16 +35,16 @@ const products = {
     id: "ghost",
     name: "The Ghost",
     eyebrow: "Signature White",
-    price: 3800,
-    priceLabel: "From $3,800",
+    price: 4790,
+    priceLabel: "From $4,790",
     image: "assets/images/forge-hero-white-build.jpg",
     imageAlt: "All-white custom PC build with glass side panel and bright internal lighting",
-    summary: "32GB DDR5 | 2TB NVMe",
-    description: "The flagship all-white showcase system. Built for buyers who want strong gaming performance, premium presentation, and a more architectural desk presence.",
+    summary: "32GB DDR5 | 2TB NVMe Gen5",
+    description: "The signature all-white showcase system refreshed around current-gen enthusiast hardware for premium 4K gaming, creator throughput, and a more architectural desk presence.",
     specs: [
-      "GeForce RTX 4080 Super graphics",
-      "Intel Core i7-14700K processor",
-      "32GB DDR5 memory and 2TB NVMe storage",
+      "GeForce RTX 5080 graphics",
+      "Intel Core Ultra 9 285K processor",
+      "32GB DDR5 memory and 2TB Gen5 NVMe storage",
       "Glass-forward white chassis with cleaner internal lighting"
     ]
   },
@@ -52,16 +52,16 @@ const products = {
     id: "pearl",
     name: "The Pearl",
     eyebrow: "Compact Performance",
-    price: 2900,
-    priceLabel: "From $2,900",
+    price: 3390,
+    priceLabel: "From $3,390",
     image: "assets/images/forge-system-rgb-tower.jpg",
     imageAlt: "Compact white PC tower with colorful internal lighting on a dark desk",
-    summary: "32GB DDR5 | 1TB NVMe",
-    description: "A smaller-footprint system with stronger visual contrast, compact proportions, and enough headroom for high-refresh gaming and mixed daily creator use.",
+    summary: "32GB DDR5 | 2TB NVMe",
+    description: "A smaller-footprint system with stronger visual contrast, compact proportions, and current-gen Radeon power for high-refresh gaming and mixed creator use.",
     specs: [
-      "GeForce RTX 4070 Ti graphics",
-      "Intel Core i5-14600K processor",
-      "32GB DDR5 memory and 1TB NVMe storage",
+      "Radeon RX 9070 XT graphics",
+      "AMD Ryzen 7 9850X3D processor",
+      "32GB DDR5 memory and 2TB NVMe storage",
       "Compact white case with RGB interior and darker outer shell"
     ]
   }
@@ -76,16 +76,28 @@ const builderCatalog = {
     "Compact Hybrid": { label: "Compact Hybrid", price: 80, inquiryFocus: "Compact custom build" }
   },
   cpu: {
-    "ryzen-7-7800x3d": { label: "AMD Ryzen 7 7800X3D", price: 430 },
-    "intel-i7-14700k": { label: "Intel Core i7-14700K", price: 410 },
-    "intel-i9-14900k": { label: "Intel Core i9-14900K", price: 590 },
-    "ryzen-9-9950x": { label: "AMD Ryzen 9 9950X", price: 650 }
+    "ryzen-7-9800x3d": { label: "AMD Ryzen 7 9800X3D", price: 480 },
+    "ryzen-7-9850x3d": { label: "AMD Ryzen 7 9850X3D", price: 530 },
+    "ryzen-9-9900x": { label: "AMD Ryzen 9 9900X", price: 500 },
+    "ryzen-9-9900x3d": { label: "AMD Ryzen 9 9900X3D", price: 620 },
+    "ryzen-9-9950x": { label: "AMD Ryzen 9 9950X", price: 650 },
+    "ryzen-9-9950x3d": { label: "AMD Ryzen 9 9950X3D", price: 760 },
+    "intel-core-ultra-5-245k": { label: "Intel Core Ultra 5 245K", price: 330 },
+    "intel-core-ultra-7-265k": { label: "Intel Core Ultra 7 265K", price: 430 },
+    "intel-core-ultra-9-285k": { label: "Intel Core Ultra 9 285K", price: 620 }
   },
   gpu: {
-    "rtx-4070-ti-super": { label: "GeForce RTX 4070 Ti Super", price: 840 },
-    "rtx-4080-super": { label: "GeForce RTX 4080 Super", price: 1180 },
-    "rtx-4090": { label: "GeForce RTX 4090", price: 1980 },
-    "radeon-7900-xtx": { label: "Radeon RX 7900 XTX", price: 990 }
+    "rtx-5060-ti": { label: "GeForce RTX 5060 Ti", price: 490 },
+    "rtx-5070": { label: "GeForce RTX 5070", price: 620 },
+    "rtx-5070-ti": { label: "GeForce RTX 5070 Ti", price: 820 },
+    "rtx-5080": { label: "GeForce RTX 5080", price: 1190 },
+    "rtx-5090": { label: "GeForce RTX 5090", price: 2280 },
+    "radeon-rx-9060": { label: "Radeon RX 9060", price: 340 },
+    "radeon-rx-9060-xt-16gb": { label: "Radeon RX 9060 XT 16GB", price: 430 },
+    "radeon-rx-9070": { label: "Radeon RX 9070", price: 650 },
+    "radeon-rx-9070-xt": { label: "Radeon RX 9070 XT", price: 790 },
+    "intel-arc-b570": { label: "Intel Arc B570", price: 240 },
+    "intel-arc-b580": { label: "Intel Arc B580", price: 320 }
   },
   memory: {
     "32gb-ddr5": { label: "32GB DDR5", price: 180 },
