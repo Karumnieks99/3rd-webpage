@@ -854,6 +854,11 @@ textarea {
   border-bottom: 1px solid rgba(208, 197, 175, 0.28);
 }
 
+.builder-summary__price-copy {
+  display: grid;
+  gap: 0.3rem;
+}
+
 .builder-summary__price-block span {
   color: var(--text-soft);
   font-size: 0.78rem;
@@ -862,11 +867,24 @@ textarea {
   text-transform: uppercase;
 }
 
+.builder-summary__price-copy small {
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
 .builder-summary__price-block strong {
   font-family: "Noto Serif", serif;
   color: var(--primary);
   font-size: clamp(2rem, 4vw, 2.8rem);
   line-height: 1;
+}
+
+.builder-summary__selection {
+  font-size: 0.94rem;
+  font-weight: 600;
+  line-height: 1.6;
 }
 
 .builder-summary__meta {

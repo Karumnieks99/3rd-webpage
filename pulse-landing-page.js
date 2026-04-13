@@ -186,7 +186,9 @@ const customBuilderInquiryBtn = document.getElementById("customBuilderInquiryBtn
 const customBuilderTitle = document.getElementById("customBuilderTitle");
 const customBuilderLead = document.getElementById("customBuilderLead");
 const customBuilderPrice = document.getElementById("customBuilderPrice");
+const customBuilderUpgradeTotal = document.getElementById("customBuilderUpgradeTotal");
 const customBuilderMeta = document.getElementById("customBuilderMeta");
+const customBuilderSelection = document.getElementById("customBuilderSelection");
 const customBuilderSpecs = document.getElementById("customBuilderSpecs");
 const customBuilderLeadTime = document.getElementById("customBuilderLeadTime");
 
@@ -971,9 +973,8 @@ function buildCustomConfiguration() {
   const selections = getCurrentBuilderSelections();
   if (!selections) return null;
 
-  const total =
-    CUSTOM_BUILD_BASE_PRICE +
-    Object.values(selections).reduce((sum, item) => sum + (item?.price || 0), 0);
+  const selectedPartsTotal = Object.values(selections).reduce((sum, item) => sum + (item?.price || 0), 0);
+  const total = CUSTOM_BUILD_BASE_PRICE + selectedPartsTotal;
 
   const leadTime = getBuilderLeadTime(selections);
   const focusLabel = selections.focus?.label || "Custom Build";
@@ -994,9 +995,10 @@ function buildCustomConfiguration() {
   return {
     name: `FORGE Custom | ${focusLabel}`,
     title: "FORGE Custom Build",
-    lead: `${focusLabel} | ${selections.case?.label || "Custom Chassis"}`,
+    lead: `${focusLabel} | ${selections.gpu?.label || "Custom Graphics"}`,
     summary,
     total,
+    selectedPartsTotal,
     leadTime,
     budget: getBudgetRangeForPrice(total),
     inquiryFocus: selections.focus?.inquiryFocus || "Luxury showcase build",
@@ -1017,6 +1019,10 @@ function buildCustomConfiguration() {
   };
 }
 
+function scheduleCustomBuilderUIUpdate() {
+  window.requestAnimationFrame(updateCustomBuilderUI);
+}
+
 function updateCustomBuilderUI() {
   const build = buildCustomConfiguration();
   if (!build) return;
@@ -1029,6 +1035,12 @@ function updateCustomBuilderUI() {
   }
   if (customBuilderPrice) {
     customBuilderPrice.textContent = formatCurrency(build.total);
+  }
+  if (customBuilderUpgradeTotal) {
+    customBuilderUpgradeTotal.textContent = `Selected parts +${formatCurrency(build.selectedPartsTotal)}`;
+  }
+  if (customBuilderSelection) {
+    customBuilderSelection.textContent = build.summary;
   }
   if (customBuilderMeta) {
     customBuilderMeta.textContent = `${build.meta} Estimated build window: ${build.leadTime}.`;
@@ -1113,7 +1125,8 @@ inquiryCopyBtn?.addEventListener("click", () => {
 inquiryDownloadBtn?.addEventListener("click", downloadPreparedInquiry);
 inquirySuccessClose?.addEventListener("click", closeDialogs);
 
-customBuilderForm?.addEventListener("change", updateCustomBuilderUI);
+customBuilderForm?.addEventListener("input", scheduleCustomBuilderUIUpdate);
+customBuilderForm?.addEventListener("change", scheduleCustomBuilderUIUpdate);
 customBuilderForm?.addEventListener("submit", (event) => {
   event.preventDefault();
   addCustomBuildToCart(buildCustomConfiguration());
