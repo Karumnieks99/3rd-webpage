@@ -87,13 +87,15 @@ const builderCatalog = {
     "intel-core-ultra-9-285k": { label: "Intel Core Ultra 9 285K", price: 620 }
   },
   gpu: {
+    "rtx-5050": { label: "GeForce RTX 5050", price: 320 },
+    "rtx-5060": { label: "GeForce RTX 5060", price: 390 },
     "rtx-5060-ti": { label: "GeForce RTX 5060 Ti", price: 490 },
     "rtx-5070": { label: "GeForce RTX 5070", price: 620 },
     "rtx-5070-ti": { label: "GeForce RTX 5070 Ti", price: 820 },
     "rtx-5080": { label: "GeForce RTX 5080", price: 1190 },
     "rtx-5090": { label: "GeForce RTX 5090", price: 2280 },
     "radeon-rx-9060": { label: "Radeon RX 9060", price: 340 },
-    "radeon-rx-9060-xt-16gb": { label: "Radeon RX 9060 XT 16GB", price: 430 },
+    "radeon-rx-9060-xt": { label: "Radeon RX 9060 XT", price: 430 },
     "radeon-rx-9070": { label: "Radeon RX 9070", price: 650 },
     "radeon-rx-9070-xt": { label: "Radeon RX 9070 XT", price: 790 },
     "intel-arc-b570": { label: "Intel Arc B570", price: 240 },
